@@ -46,6 +46,7 @@ router.post('/post/new/:userId', requireSignin, createPost, createPostValidator)
 //to get all the posts of a particular user
 router.get('/posts/by/:userId', requireSignin, postsByUser);
 
+//to get a single post
 router.get('/post/:postId', singlePost);
 
 //method to update post to update info we use http route put
@@ -55,7 +56,7 @@ router.put('/post/:postId', requireSignin, isPoster, updatePost);
 //User must be signed in and user should be correct user(i.e. he must be same who created post)
 router.delete('/post/:postId', requireSignin, isPoster, deletePost);
 
-// photo
+// to get post photo
 router.get('/post/photo/:postId', photo);
 
 // any route containing :userId, our app will first execute userById()

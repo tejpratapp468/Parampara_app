@@ -8,6 +8,7 @@
     "react-dom": "^16.7.0",
     "react-google-login": "^5.0.2",
     "react-google-recaptcha": "^1.0.5",
+    "react-native-fit-image": "^1.5.5",
     "react-recaptcha": "^2.3.10",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.5"

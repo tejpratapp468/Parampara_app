@@ -55,10 +55,10 @@ exports.getPosts = async (req, res) => {
                 .populate('postedBy', '_id name')
                 .select('_id title body created likes')
                 .limit(perPage)
-                .sort({ created: -1 });
+                .sort({ created: -1 }); //this will sort the post based on created date latest will come first
         })
         .then(posts => {
-            res.status(200).json(posts);
+            res.status(200).json(posts); //we are returning the array of posts bcz map method work with arrays
         })
         .catch(err => console.log(err));
 };
@@ -184,10 +184,11 @@ exports.deletePost = (req, res) => {
 };
 
 exports.photo = (req, res, next) => {
-    res.set('Content-Type', req.post.photo.contentType);
+    res.set('Content-Type', req.post.photo.contentType);//before sending res set the headers
     return res.send(req.post.photo.data);
 };
 
+// to get a single post
 exports.singlePost = (req, res) => {
     return res.json(req.post);
 };

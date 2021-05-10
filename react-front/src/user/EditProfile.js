@@ -48,7 +48,7 @@ class EditProfile extends Component {
     const { name, email, password, fileSize } = this.state;
     if (fileSize > 1000000) { //1000b=1kb
       this.setState({
-        error: "File size should be less than 100kb",
+        error: "File size should be less than 1000kb",
         loading: false
       });
       return false;

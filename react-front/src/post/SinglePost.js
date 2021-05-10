@@ -34,7 +34,7 @@ class SinglePost extends Component {
                     comments: data.comments
                 });
             }
-        });
+        }); 
     };
 
     updateComments = comments => {
@@ -96,10 +96,13 @@ class SinglePost extends Component {
                     onError={i => (i.target.src = `${DefaultPost}`)}
                     className="img-thunbnail mb-3"
                     style={{
-                        height: '300px',
-                        width: '100%',
-                        objectFit: 'cover'
+                        alignSelf: 'center',
+                        height: 500,
+                        width: 500,  
+                        borderWidth: 1,
+                        borderRadius: 75
                     }}
+                    resizeMode="stretch"
                 />
 
                 {like ? (
@@ -167,7 +170,7 @@ class SinglePost extends Component {
     };
 
     render() {
-        const { post, redirectToHome, redirectToSignin, comments } = this.state;
+        const { post, redirectToHome, redirectToSignin, comments } = this.state; //destructuring
 
         if (redirectToHome) {
             return <Redirect to={`/`} />;

@@ -3,6 +3,7 @@ import { isAuthenticated } from "../auth";
 import { create } from "./apiPost";
 import { Redirect } from "react-router-dom";
 
+//This component is much similar to editprofile.js of user folder
 class NewPost extends Component {
     constructor() {
         super();
@@ -10,8 +11,8 @@ class NewPost extends Component {
             title: "",
             body: "",
             photo: "",
-            error: "",
-            user: {},
+            error: "", 
+            user: {}, //the user who have created the post
             fileSize: 0,
             loading: false,
             redirectToProfile: false
@@ -19,15 +20,15 @@ class NewPost extends Component {
     }
 
     componentDidMount() {
-        this.postData = new FormData();
-        this.setState({ user: isAuthenticated().user });
+        this.postData = new FormData(); //we need new form data initially
+        this.setState({ user: isAuthenticated().user });//we need authenticated user to create the new post
     }
 
     isValid = () => {
         const { title, body, fileSize } = this.state;
-        if (fileSize > 100000) {
-            this.setState({
-                error: "File size should be less than 100kb",
+        if (fileSize > 1000000) {
+            this.setState({ //1000b=1kb
+                error: "File size should be less than 1000kb",
                 loading: false
             });
             return false;
@@ -46,7 +47,7 @@ class NewPost extends Component {
 
         const fileSize = name === "photo" ? event.target.files[0].size : 0;
         this.postData.set(name, value);
-        this.setState({ [name]: value, fileSize });
+        this.setState({ [name]: value, fileSize }); //filesize:filesize
     };
 
     clickSubmit = event => {
@@ -60,8 +61,9 @@ class NewPost extends Component {
             create(userId, token, this.postData).then(data => {
                 if (data.error) this.setState({ error: data.error });
                 else {
+                    console.log("post",data);
                     this.setState({
-                        loading: false,
+                        loading: false, 
                         title: "",
                         body: "",
                         redirectToProfile: true

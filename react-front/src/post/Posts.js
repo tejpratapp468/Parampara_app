@@ -42,7 +42,7 @@ class Posts extends Component {
                 {posts.map((post, i) => {
                     const posterId = post.postedBy
                         ? `/user/${post.postedBy._id}`
-                        : "";
+                        : "";//"" will make unknown link will take us to nowhere
                     const posterName = post.postedBy
                         ? post.postedBy.name
                         : " Unknown";
@@ -56,7 +56,7 @@ class Posts extends Component {
                                     }/post/photo/${post._id}`}
                                     alt={post.title}
                                     onError={i =>
-                                        (i.target.src = `${DefaultPost}`)
+                                        (i.target.src = `${DefaultPost}`) ////on error display the defaultpost
                                     }
                                     className="img-thunbnail mb-3"
                                     style={{ height: "200px", width: "100%" }}
@@ -92,7 +92,7 @@ class Posts extends Component {
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">
-                    {!posts.length ? "No more posts!" : "Recent Posts"}
+                    {!posts.length ? "Loading..." : "Recent Posts"}
                 </h2>
 
                 {this.renderPosts(posts)}
@@ -124,3 +124,6 @@ class Posts extends Component {
 }
 
 export default Posts;
+
+
+//<br /> gives the line break and works as endl of c++
