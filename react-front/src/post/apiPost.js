@@ -60,6 +60,7 @@ export const listByUser = (userId, token) => {
         .catch(err => console.log(err));
 };
 
+//to delete a post
 export const remove = (postId, token) => {
     return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
         method: "DELETE",
@@ -75,8 +76,10 @@ export const remove = (postId, token) => {
         .catch(err => console.log(err));
 };
 
+//to update a post
 export const update = (postId, token, post) => {
     console.log(postId, token, post);
+    //here post is a form-data so we are not sending content-type:application/json
     return fetch(`${process.env.REACT_APP_API_URL}/post/${postId}`, {
         method: "PUT",
         headers: {
@@ -91,6 +94,7 @@ export const update = (postId, token, post) => {
         .catch(err => console.log(err));
 };
 
+//like and unlike
 export const like = (userId, token, postId) => {
     return fetch(`${process.env.REACT_APP_API_URL}/post/like`, {
         method: "PUT",

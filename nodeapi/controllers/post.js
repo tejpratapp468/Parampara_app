@@ -109,6 +109,7 @@ exports.postsByUser = (req, res) => {
 };
 
 exports.isPoster = (req, res, next) => {
+    //isPoster will be true only if we have authenticated correct user who actually created the post
     let sameUser = req.post && req.auth && req.post.postedBy._id == req.auth._id;
     let adminUser = req.post && req.auth && req.auth.role === 'admin';
 
@@ -127,6 +128,7 @@ exports.isPoster = (req, res, next) => {
 
 // exports.updatePost = (req, res, next) => {
 //     let post = req.post;
+ ////extend method mutates the source object i.e. first parameteris updated by 2nd parameter
 //     post = _.extend(post, req.body);
 //     post.updated = Date.now();
 //     post.save(err => {
@@ -193,21 +195,25 @@ exports.singlePost = (req, res) => {
     return res.json(req.post);
 };
 
+//likes and unlikes
 exports.like = (req, res) => {
-    Post.findByIdAndUpdate(req.body.postId, { $push: { likes: req.body.userId } }, { new: true }).exec(
+    //push the userId in the likes array
+    Post.findByIdAndUpdate(req.body.postId, { $push: { likes: req.body.userId } },
+        { new: true }).exec(
         (err, result) => {
             if (err) {
                 return res.status(400).json({
                     error: err
                 });
             } else {
-                res.json(result);
+                res.json(result); //result is having changes in likes array
             }
         }
     );
 };
 
 exports.unlike = (req, res) => {
+    //the req.body.postId is no loger liked by req.body.userId
     Post.findByIdAndUpdate(req.body.postId, { $pull: { likes: req.body.userId } }, { new: true }).exec(
         (err, result) => {
             if (err) {
@@ -352,3 +358,5 @@ exports.updateComment = async (req, res) => {
   res.json({ message: Language.fr.CommentUpdated });
 };
  */
+
+  // {new:true} used bcz of this mongoDB will give new updated data not old data

@@ -30,7 +30,7 @@ const postSchema = new mongoose.Schema({
         default: Date.now
     },
     updated: Date,
-    likes: [{ type: ObjectId, ref: 'User' }],
+    likes: [{ type: ObjectId, ref: 'User' }], //based on user's ObjectId likes will be counted by the size of list
     comments: [
         {
             text: String,

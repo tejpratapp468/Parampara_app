@@ -17,7 +17,7 @@ class Profile extends Component {
       redirectToSignin: false,
       following: false,
       error: "",
-      posts: []
+      posts: []  //this list will be having posts by a single user
     };
   }
 
@@ -56,11 +56,11 @@ class Profile extends Component {
         // console.log("user data",data);
         let following = this.checkFollow(data);
         this.setState({ user: data, following }); //following:following   
-        this.loadPosts(data._id);
+        this.loadPosts(data._id); //data._id is the user._id
       }
     });
   };
-
+ 
   loadPosts = userId => {
     const token = isAuthenticated().token;
     listByUser(userId, token).then(data => {

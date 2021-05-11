@@ -144,7 +144,8 @@ exports.addFollowing = (req, res, next) => {
 };
 
 exports.addFollower = (req, res) => {
-    User.findByIdAndUpdate(req.body.followId, { $push: { followers: req.body.userId } }, { new: true })
+    User.findByIdAndUpdate(req.body.followId, { $push: { followers: req.body.userId } },
+        { new: true })   // {new:true} used bcz of this mongoDB will give new updated data not old data
         .populate('following', '_id name')
         .populate('followers', '_id name')
         .exec((err, result) => {

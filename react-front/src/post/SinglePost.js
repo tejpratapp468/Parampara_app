@@ -10,14 +10,15 @@ class SinglePost extends Component {
         post: '',
         redirectToHome: false,
         redirectToSignin: false,
-        like: false,
+        like: false, //this will keep track if user has liked this post or not
         likes: 0,
         comments: []
     };
-
+    
+    //this will check if user has already liked this post or not
     checkLike = likes => {
         const userId = isAuthenticated() && isAuthenticated().user._id;
-        let match = likes.indexOf(userId) !== -1;
+        let match = likes.indexOf(userId) !== -1; //if index of userId is not found then indexOf(userId) returns -1;
         return match;
     };
 
@@ -40,13 +41,15 @@ class SinglePost extends Component {
     updateComments = comments => {
         this.setState({ comments });
     };
-
+    
+    //this method will put request to backend for both like or unlike
     likeToggle = () => {
         if (!isAuthenticated()) {
+            //if we don't have authenticated user then redirect them to signin
             this.setState({ redirectToSignin: true });
             return false;
         }
-        let callApi = this.state.like ? unlike : like;
+        let callApi = this.state.like ? unlike : like; //the name of function callApi is dependent on value of this.state.like 
         const userId = isAuthenticated().user._id;
         const postId = this.state.post._id;
         const token = isAuthenticated().token;
@@ -97,8 +100,8 @@ class SinglePost extends Component {
                     className="img-thunbnail mb-3"
                     style={{
                         alignSelf: 'center',
-                        height: 500,
-                        width: 500,  
+                        height: 400,
+                        width: "auto",  
                         borderWidth: 1,
                         borderRadius: 75
                     }}
@@ -111,7 +114,7 @@ class SinglePost extends Component {
                             className="fa fa-thumbs-up text-success bg-dark"
                             style={{ padding: '10px', borderRadius: '50%' }}
                         />{' '}
-                        {likes} Like
+                        {likes} Likes
                     </h3>
                 ) : (
                     <h3 onClick={this.likeToggle}>
@@ -119,7 +122,7 @@ class SinglePost extends Component {
                             className="fa fa-thumbs-up text-warning bg-dark"
                             style={{ padding: '10px', borderRadius: '50%' }}
                         />{' '}
-                        {likes} Like
+                        {likes} Likes
                     </h3>
                 )}
 

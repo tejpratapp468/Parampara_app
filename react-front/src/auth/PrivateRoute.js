@@ -4,7 +4,7 @@ import { isAuthenticated } from "./index";
 
 //this function is taking react Component and and rest of argument using ...rest as argument
 const PrivateRoute = ({ component: Component, ...rest }) => (
-    // props means components passed down to this pricate route component
+    // props means components passed down to this private route component
     <Route
         {...rest}
         render={props =>

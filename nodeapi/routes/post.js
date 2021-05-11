@@ -65,3 +65,5 @@ router.param('userId', userById);
 router.param('postId', postById);
 
 module.exports = router;
+
+//we put like & unlike routes on top,bcz below routes has post/:postId so to avoid conflict we have put these routes on top 

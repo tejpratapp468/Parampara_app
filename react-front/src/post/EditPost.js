@@ -35,6 +35,7 @@ class EditPost extends Component {
 
     componentDidMount() {
         this.postData = new FormData();
+        console.log(this.props);
         const postId = this.props.match.params.postId;
         this.init(postId);
     }
@@ -94,7 +95,7 @@ class EditPost extends Component {
                 <input
                     onChange={this.handleChange("photo")}
                     type="file"
-                    accept="image/*"
+                    accept="image/*" //Accept any file with an image/*
                     className="form-control"
                 />
             </div>
@@ -135,12 +136,17 @@ class EditPost extends Component {
             redirectToProfile,
             error,
             loading
-        } = this.state;
+        } = this.state; //destructuring
 
         if (redirectToProfile) {
             return <Redirect to={`/user/${isAuthenticated().user._id}`} />;
         }
-
+        const photoUrl = id
+      ? `${
+          process.env.REACT_APP_API_URL
+        }/user/photo/${id}?${new Date().getTime()}`  
+      : DefaultPost;
+    
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">{title}</h2>
@@ -163,12 +169,11 @@ class EditPost extends Component {
                 <img
                     style={{ height: "200px", width: "auto" }}
                     className="img-thumbnail"
-                    src={`${
-                        process.env.REACT_APP_API_URL
-                    }/post/photo/${id}?${new Date().getTime()}`}
-                    onError={i => (i.target.src = `${DefaultPost}`)}
+                    src={photoUrl}
+                    onError={i => (i.target.src = `${DefaultPost}`)} //on error display the default profile
                     alt={title}
                 />
+
 
                 {isAuthenticated().user.role === "admin" &&
                     this.editPostForm(title, body)}
@@ -181,3 +186,5 @@ class EditPost extends Component {
 }
 
 export default EditPost;
+
+//${new Date().getTime()}`:This guarantees when u update u get updated image. Browser will not use the chached img but will fetch new img so we have updated img
