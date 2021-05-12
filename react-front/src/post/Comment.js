@@ -20,7 +20,7 @@ class Comment extends Component {
         if (!text.length > 0 || text.length > 150) {
             this.setState({
                 error:
-                    "Comment should not be empty and less than 150 characters long"
+                    "Comment should not be empty and should not exceeds 150 characters"
             });
             return false;
         }
@@ -38,7 +38,7 @@ class Comment extends Component {
         if (this.isValid()) {
             const userId = isAuthenticated().user._id;
             const token = isAuthenticated().token;
-            const postId = this.props.postId;
+            const postId = this.props.postId; //we are passing postId as props in Singlepost comment 
 
             comment(userId, token, postId, { text: this.state.text }).then(
                 data => {
@@ -46,8 +46,8 @@ class Comment extends Component {
                         console.log(data.error);
                     } else {
                         this.setState({ text: "" });
-                        // dispatch fresh list of coments to parent (SinglePost)
-                        this.props.updateComments(data.comments);
+                        // dispatch fresh list of comments to parent component (SinglePost)
+                        this.props.updateComments(data.comments); //this method is present in parent (SinglePost.js)
                     }
                 }
             );
@@ -63,7 +63,7 @@ class Comment extends Component {
             if (data.error) {
                 console.log(data.error);
             } else {
-                this.props.updateComments(data.comments);
+                this.props.updateComments(data.comments); //Updated comments array will be passed to parent component(Singlepost) 
             }
         });
     };

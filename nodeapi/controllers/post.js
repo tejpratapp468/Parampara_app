@@ -4,6 +4,7 @@ const fs = require('fs');
 const _ = require('lodash');
 
 exports.postById = (req, res, next, id) => {
+    //we are populating the required fields so that we can have required info needed in frontend
     Post.findById(id)
         .populate('postedBy', '_id name')
         .populate('comments.postedBy', '_id name')
@@ -227,19 +228,20 @@ exports.unlike = (req, res) => {
     );
 };
 
+//comment uncomment and updatecomment methods
 exports.comment = (req, res) => {
     let comment = req.body.comment;
-    comment.postedBy = req.body.userId;
+    comment.postedBy = req.body.userId;//these details will come from frontend
 
     Post.findByIdAndUpdate(req.body.postId, { $push: { comments: comment } }, { new: true })
-        .populate('comments.postedBy', '_id name')
-        .populate('postedBy', '_id name')
+        .populate('comments.postedBy', '_id name') //comments creater's id name
+        .populate('postedBy', '_id name')  //post creater
         .exec((err, result) => {
             if (err) {
                 return res.status(400).json({
                     error: err
                 });
-            } else {
+            } else {                       
                 res.json(result);
             }
         });

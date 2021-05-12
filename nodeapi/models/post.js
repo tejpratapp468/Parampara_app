@@ -23,7 +23,7 @@ const postSchema = new mongoose.Schema({
     },
     postedBy: {  //this field buids relationship b/w user & post i.e. 'This post created by this user'
         type: ObjectId,
-        ref: 'User' //reference is of type User model
+        ref: 'User' //based on User's ObjectId postedBy will be decided
     },
     created: {
         type: Date,
@@ -38,6 +38,6 @@ const postSchema = new mongoose.Schema({
             postedBy: { type: ObjectId, ref: 'User' }
         }
     ]
-});
+}); 
 
 module.exports = mongoose.model('Post', postSchema);

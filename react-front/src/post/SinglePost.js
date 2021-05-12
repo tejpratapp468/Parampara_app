@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
 import Comment from './Comment';
 
-class SinglePost extends Component {
+class SinglePost extends Component { 
     state = {
         post: '',
         redirectToHome: false,
@@ -38,8 +38,8 @@ class SinglePost extends Component {
         }); 
     };
 
-    updateComments = comments => {
-        this.setState({ comments });
+    updateComments = comments => { //comments is coming from child componenet Comment.js
+        this.setState({ comments }); //comments:comments
     };
     
     //this method will put request to backend for both like or unlike
@@ -100,7 +100,7 @@ class SinglePost extends Component {
                     className="img-thunbnail mb-3"
                     style={{
                         alignSelf: 'center',
-                        height: 400,
+                        height: 500,
                         width: "auto",  
                         borderWidth: 1,
                         borderRadius: 75
@@ -200,3 +200,5 @@ class SinglePost extends Component {
 }
 
 export default SinglePost;
+
+//comments.reverse() will give the comments in reverse order i.e. latest comment will be on top
