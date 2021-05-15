@@ -15,7 +15,7 @@ export const read = (userId, token) => {
 
 //fetch() method is promise based so we use .then() to receive response
 export const update = (userId, token, user) => {
-    console.log("USER DATA UPDATE: ", user);
+    //console.log("USER DATA UPDATE: ", user);
     return fetch(`${process.env.REACT_APP_API_URL}/user/${userId}`, {
         method: "PUT",
         headers: {
@@ -55,6 +55,7 @@ export const list = () => {
         .catch(err => console.log(err));
 };
 
+//this function is used to update local storage after the user has updated his profile
 export const updateUser = (user, next) => {
     if (typeof window !== "undefined") {
         if (localStorage.getItem("jwt")) {

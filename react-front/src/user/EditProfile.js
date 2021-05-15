@@ -107,10 +107,12 @@ class EditProfile extends Component {
         if (data.error) {
           this.setState({ error: data.error });
         } else if (isAuthenticated().user.role === "admin") {
+          //we don't want to update local storage with other user's info if admin has updated other user's profile
           this.setState({
             redirectToProfile: true
           });
         } else {
+          //this function is used to update local storage after the user has updated his profile
           updateUser(data, () => {
             this.setState({
               redirectToProfile: true

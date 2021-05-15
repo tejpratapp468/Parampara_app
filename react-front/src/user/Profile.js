@@ -138,6 +138,7 @@ class Profile extends Component {
               />
             )}
 
+            {/* this is for admin  */}
             <div>
               {isAuthenticated().user &&
                 isAuthenticated().user.role === "admin" && (

@@ -14,20 +14,23 @@ class EditPost extends Component {
             redirectToProfile: false,
             error: "",
             fileSize: 0,
+            photoid:"",
             loading: false
         };
     }
-
+ 
     init = postId => {
         singlePost(postId).then(data => {
             if (data.error) {
                 this.setState({ redirectToProfile: true });
             } else {
+                //console.log("data",data);
                 this.setState({
                     id: data.postedBy._id,
                     title: data.title,
                     body: data.body,
-                    error: ""
+                    error: "",
+                    photoid:data._id
                 });
             }
         });
@@ -135,17 +138,13 @@ class EditPost extends Component {
             body,
             redirectToProfile,
             error,
-            loading
+            loading,
+            photoid
         } = this.state; //destructuring
 
         if (redirectToProfile) {
             return <Redirect to={`/user/${isAuthenticated().user._id}`} />;
         }
-        const photoUrl = id
-      ? `${
-          process.env.REACT_APP_API_URL
-        }/user/photo/${id}?${new Date().getTime()}`  
-      : DefaultPost;
     
         return (
             <div className="container">
@@ -165,12 +164,13 @@ class EditPost extends Component {
                 ) : (
                     ""
                 )}
-
                 <img
                     style={{ height: "200px", width: "auto" }}
                     className="img-thumbnail"
-                    src={photoUrl}
-                    onError={i => (i.target.src = `${DefaultPost}`)} //on error display the default profile
+                    src={`${
+                        process.env.REACT_APP_API_URL
+                    }/post/photo/${photoid}?${new Date().getTime()}`}
+                    onError={i => (i.target.src = `${DefaultPost}`)}
                     alt={title}
                 />
 
@@ -182,7 +182,7 @@ class EditPost extends Component {
                     this.editPostForm(title, body)}
             </div>
         );
-    }
+    } 
 }
 
 export default EditPost;

@@ -35,14 +35,14 @@ exports.signin = (req, res) => {
                 error: 'Email and password do not match'
             });
         }
-        // generate a token with user id and secret
+        // generate a token with user id, user role and secret
         const token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET);
         // persist the token as 't' in cookie with expiry date
         res.cookie('t', token, { expire: new Date() + 9999 });
         // retrun response with user and token to frontend client
         const { _id, name, email, role } = user;
         return res.json({ token, user: { _id, email, name, role } });
-    });
+    }); 
 };
 
 exports.signout = (req, res) => {
@@ -55,6 +55,7 @@ exports.requireSignin = expressJwt({
     userProperty: 'auth'
 });
 
+// add forgotPassword and resetPassword methods
 exports.forgotPassword = (req, res) => {
     if (!req.body) return res.status(400).json({ message: 'No request body' });
     if (!req.body.email) return res.status(400).json({ message: 'No Email in request body' });
@@ -73,23 +74,26 @@ exports.forgotPassword = (req, res) => {
         // generate a token with user id and secret
         const token = jwt.sign({ _id: user._id, iss: process.env.APP_NAME }, process.env.JWT_SECRET);
 
-        // email data
+        // Change RESET_PASSWORD to CLIENT_URL if you are in a Development Environment, as
+        // RESET_PASSWORD is only used in production environments
+        // email data  send mail with defined transport object
         const emailData = {
-            from: 'noreply@node-react.com',
-            to: email,
+            from: 'noreply@node-react.com', //sendedr's address
+            to: email,                      //reciever
             subject: 'Password Reset Instructions',
             text: `Please use the following link to reset your password: ${
                 process.env.CLIENT_URL
-            }/reset-password/${token}`,
+            }/reset-password/${token}`, // plain text body
             html: `<p>Please use the following link to reset your password:</p> <p>${
                 process.env.CLIENT_URL
-            }/reset-password/${token}</p>`
+            }/reset-password/${token}</p>` // html body
         };
 
         return user.updateOne({ resetPasswordLink: token }, (err, success) => {
             if (err) {
                 return res.json({ message: err });
             } else {
+                console.log("tej reset");
                 sendEmail(emailData);
                 return res.status(200).json({
                     message: `Email has been sent to ${email}. Follow the instructions to reset your password.`

@@ -16,6 +16,7 @@ const dotenv=require("dotenv");
 dotenv.config();
 
 //config DB to connect wih DB
+//mongodb://localhost/nodeapi
 mongoose.connect(process.env.MONGO_URI,
   {useNewUrlParser:true, useUnifiedTopology:true})
   .then(() => console.log("DB connected Successfully")) //if success .then() will run
