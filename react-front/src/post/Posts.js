@@ -26,6 +26,7 @@ class Posts extends Component {
         this.loadPosts(this.state.page);
     }
 
+    //loadMore() and loadLess() methods will be executed, when Previous and Next buttons will be clicked. loadMore() and loadLess() methods will also update state.page
     loadMore = number => {
         this.setState({ page: this.state.page + number });
         this.loadPosts(this.state.page + number);
